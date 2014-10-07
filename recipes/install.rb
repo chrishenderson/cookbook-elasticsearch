@@ -29,6 +29,14 @@ script "install_elasticsearch" do
   not_if "ls #{node[:elasticsearch][:home_dir]}-#{node[:elasticsearch][:version]}"
 end
 
+# Init File
+template "elasticsearch.init" do
+  path   "/etc/init.d/elasticsearch"
+  source "elasticsearch.init.erb"
+  owner 'root'
+  mode 0755
+end
+
 # Create Symlink
 link "#{node[:elasticsearch][:home_dir]}" do
   to "#{node[:elasticsearch][:home_dir]}-#{node[:elasticsearch][:version]}"
